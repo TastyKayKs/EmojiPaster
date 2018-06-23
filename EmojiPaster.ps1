@@ -259,6 +259,7 @@ $Countx = 0
 $County = 0
 $Page = 1
 
+$ToolTip = New-Object System.Windows.Forms.ToolTip
 $Window = (GUI 353 1060 'Emojis')
 
 $TabController = (GUI -TC 338 985 0 0)
@@ -273,6 +274,7 @@ $TabPage = (GUI -TP 'Page: 1')
         $_.Size  = New-Object System.Drawing.Size(25,25)
         $_.Location = New-Object System.Drawing.Size(((($Countx % 10) * 30) + 10),((($County % 31) * 30) + 10))
         $_.Add_Click({[System.Windows.Forms.Clipboard]::SetText($This.Text); $Text.Text+=$This.Text})
+        $_.Add_MouseHover({$ToolTip.Show(([Char]::ConvertToUtf32($This.Text, 0)), $This)})
         $_.Add_MouseEnter({$This.Size = New-Object System.Drawing.Size(50, 50); $This.Font = New-Object System.Drawing.Font('Symbola',30,[System.Drawing.FontStyle]::Regular)})
         $_.Add_MouseLeave({$This.Size = New-Object System.Drawing.Size(25, 25); $This.Font = New-Object System.Drawing.Font('Symbola',12,[System.Drawing.FontStyle]::Regular)})
         $TabPage.Ins($_)
