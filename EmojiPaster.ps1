@@ -314,3 +314,5 @@ $Window.Ins($Space)
 
 $Window.Ins($TabController)
 $Window.Start()
+
+Exit
