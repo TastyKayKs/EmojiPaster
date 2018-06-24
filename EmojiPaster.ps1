@@ -255,6 +255,11 @@ $PseudoProfile | Out-File ($env:APPDATA+'\Emoji\PseudoProf.ps1') -Width 1000 -Fo
 
 . ($env:APPDATA+'\Emoji\PseudoProf.ps1')
 
+$Window = (GUI 353 1060 'Emojis')
+
+$TabController = (GUI -TC 338 985 0 0)
+$TabPage = (GUI -TP 'Page: 1')
+
 [Void] [System.Windows.Forms.Application]::EnableVisualStyles()
 
 HideConsole
@@ -264,10 +269,6 @@ $County = 0
 $Page = 1
 
 $ToolTip = New-Object System.Windows.Forms.ToolTip
-$Window = (GUI 353 1060 'Emojis')
-
-$TabController = (GUI -TC 338 985 0 0)
-$TabPage = (GUI -TP 'Page: 1')
 
 127000..128999 | %{
     $Temp = [Char]::ConvertFromUtf32(('0x'+[Convert]::ToString($_,16)))
