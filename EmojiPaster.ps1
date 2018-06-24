@@ -255,6 +255,10 @@ $PseudoProfile | Out-File ($env:APPDATA+'\Emoji\PseudoProf.ps1') -Width 1000 -Fo
 
 . ($env:APPDATA+'\Emoji\PseudoProf.ps1')
 
+[Void] [System.Windows.Forms.Application]::EnableVisualStyles()
+
+HideConsole
+
 $Countx = 0
 $County = 0
 $Page = 1
