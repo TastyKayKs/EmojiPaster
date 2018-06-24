@@ -306,7 +306,8 @@ $Back = (GUI -B 25 25 12 990 '<')
 $Back.Cl({If($Text.Text.Length -gt 0){$Text.Text = $Text.Text.Substring(0, $Text.Text.Length - 2)}})
 $Text = (GUI -B 237 25 42 990)
 $Text.Font = New-Object System.Drawing.Font('Symbola',12,[System.Drawing.FontStyle]::Regular)
-$Text.Add_MouseDown({If($_.Button -eq 'right'){$This.Text = ''}Else{[System.Windows.Forms.Clipboard]::SetText($This.Text)}})
+$Text.Add_MouseDown({If($_.Button -eq 'right'){$This.Text = ''}Else{If($This.Text.Length -ge 1){[System.Windows.Forms.Clipboard]::SetText($This.Text)}Else{[System.Windows.Forms.Clipboard]::SetText(' ')}}})
+
 $Space = (GUI -B 25 25 285 990 '_')
 $Space.Cl({$Text.Text+=' '})
 
