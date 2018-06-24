@@ -256,6 +256,7 @@ $PseudoProfile | Out-File ($env:APPDATA+'\Emoji\PseudoProf.ps1') -Width 1000 -Fo
 . ($env:APPDATA+'\Emoji\PseudoProf.ps1')
 
 $Window = (GUI 353 1060 'Emojis')
+$Window.FormBorderStyle = 'FixedDialog'
 
 $TabController = (GUI -TC 338 985 0 0)
 $TabPage = (GUI -TP 'Page: 1')
