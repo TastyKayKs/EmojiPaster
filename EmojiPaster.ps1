@@ -1,20 +1,7 @@
-$RepsarseRequired = $False
-
-Try
-{
-    [Void][System.Windows.Forms.Form]::New(0,0,'')
-}
-Catch
-{
-    $ReparseRequired = $True
-}
-
 $MainBlock = {
 [Void](Add-Type -ReferencedAssemblies System.Windows.Forms,System.Drawing,Microsoft.VisualBasic -TypeDefinition @'
 using System; 
-using System.IO;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 using DR = System.Drawing;
 using SWF = System.Windows.Forms;
 namespace Emoji{
@@ -30,34 +17,19 @@ namespace Emoji{
     }
 
     public class F : SWF.Form{
-        public F (int sx, int sy, string tx){
-            this.Size = new DR.Size(sx,sy);
-            this.Text = tx;
-        }
+        public F (int sx, int sy, string tx){this.Size = new DR.Size(sx,sy);this.Text = tx;}
     }
 
     public class L : SWF.Label{
-        public L (int sx, int sy, int lx, int ly, string tx){
-            this.Size = new DR.Size(sx,sy);
-            this.Location = new DR.Point(lx,ly);
-            this.Text = tx;
-        }
+        public L (int sx, int sy, int lx, int ly, string tx){this.Size = new DR.Size(sx,sy);this.Location = new DR.Point(lx,ly);this.Text = tx;}
     }
 
     public class TB : SWF.TextBox{
-        public TB (int sx, int sy, int lx, int ly, string tx){
-            this.Size = new DR.Size(sx,sy);
-            this.Location = new DR.Point(lx,ly);
-            this.Text = tx;
-        }
+        public TB (int sx, int sy, int lx, int ly, string tx){this.Size = new DR.Size(sx,sy);this.Location = new DR.Point(lx,ly);this.Text = tx;}
     }
 
     public class B : SWF.Button{
-        public B (int sx, int sy, int lx, int ly, string tx){
-            this.Size = new DR.Size(sx,sy);
-            this.Location = new DR.Point(lx,ly);
-            this.Text = tx;
-        }
+        public B (int sx, int sy, int lx, int ly, string tx){this.Size = new DR.Size(sx,sy);this.Location = new DR.Point(lx,ly);this.Text = tx;}
     }
 
     public class SP{
@@ -68,10 +40,6 @@ namespace Emoji{
         public static DR.Size SI (int sx, int sy){
             return (new DR.Size(sx, sy));
         }
-    }
-
-    public class N{
-        public static string L = System.Environment.NewLine;
     }
 }
 '@)
@@ -163,8 +131,7 @@ $Text.Parent = $Window
 $Window.ShowDialog()
 }
 
-If($PSVersionTable.CLRVersion.Major -le 2 -OR $ReparseRequired)
-{
+If($(Try{[Void][PSObject]::New()}Catch{$True})){
     $MainBlock = ($MainBlock.toString().Split([System.Environment]::NewLine) | %{
         $FlipFlop = $True
     }{
@@ -172,16 +139,12 @@ If($PSVersionTable.CLRVersion.Major -le 2 -OR $ReparseRequired)
 
         $FlipFlop = !$FlipFlop
     } | %{
-        If($_ -match '::New\(')
-        {
+        If($_ -match '::New\('){
             (($_.Split('[')[0]+'(New-Object '+$_.Split('[')[-1]+')') -replace ']::New',' -ArgumentList ').Replace(' -ArgumentList ()','')
-        }
-        Else
-        {
+        }Else{
             $_
         }
     }) -join [System.Environment]::NewLine
 }
 $MainBlock = [ScriptBlock]::Create($MainBlock)
-
 $MainBlock.Invoke()
