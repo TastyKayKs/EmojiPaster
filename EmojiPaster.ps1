@@ -33,13 +33,8 @@ namespace Emoji{
     }
 
     public class SP{
-        public static DR.Point PO (int sx, int sy){
-            return (new DR.Point(sx, sy));
-        }
-        
-        public static DR.Size SI (int sx, int sy){
-            return (new DR.Size(sx, sy));
-        }
+        public static DR.Point PO (int sx, int sy){return (new DR.Point(sx, sy));}
+        public static DR.Size SI (int sx, int sy){return (new DR.Size(sx, sy));}
     }
 }
 '@)
@@ -49,50 +44,32 @@ $Hide = [Emoji.Wind]::GetConsoleWindow()
 
 [Emoji.Wind]::Visual()
 
-Function Reparse($Ind)
-{
+Function Reparse($Ind){
     $ButtArr | %{$Count=1}{
         $PH = ($Count+($Ind*310))
-        If($PH -le 1114111 -AND ($PH -lt 55296 -OR $PH -gt 57343))
-        {
-            $Temp = [Char]::ConvertFromUtf32(('0x'+[Convert]::ToString($PH,16)))
+        $_.Text = ''
+        If($PH -le 1114111 -AND ($PH -lt 55296 -OR $PH -gt 57343)){
+            $_.Text = [Char]::ConvertFromUtf32(('0x'+[Convert]::ToString($PH,16)))
         }
-        Else
-        {
-            $Temp = ''
-        }
-
-        $_.Text = $Temp
         $Count++
     }
 }
 
 $Window = [Emoji.F]::New(353, 1060, 'Emojis')
 $Window.MaximizeBox = $False
-$Window.FormBorderStyle = 'FixedDialog'
+#$Window.FormBorderStyle = 'FixedDialog'
 
 $Back = [Emoji.B]::New(25, 25, 15, 10, '-')
-$Back.Add_Click({
-    $PageNo.Text = ([Int]($PageNo.Text) - 1)
-    Reparse([Int]($PageNo.Text))
-})
+$Back.Add_Click({$PageNo.Text = ([Int]($PageNo.Text) - 1);Reparse([Int]($PageNo.Text))})
 $Back.Parent = $Window
 
 $PageNo = [Emoji.TB]::New(225, 25, 50, 11, '413')
-$PageNo.Add_KeyDown({
-    If($_.KeyCode -eq 'Return')
-    {
-        Reparse([Int]($This.Text))
-    }
-})
+$PageNo.Add_KeyDown({If($_.KeyCode -eq 'Return'){Reparse([Int]($This.Text))}})
 $PageNo.Add_TextChanged({$This.Text = ($This.Text -replace '\D')})
 $PageNo.Parent = $Window
 
 $Forward = [Emoji.B]::New(25, 25, 285, 10, '+')
-$Forward.Add_Click({
-    $PageNo.Text = ([Int]($PageNo.Text) + 1)
-    Reparse([Int]($PageNo.Text))
-})
+$Forward.Add_Click({$PageNo.Text = ([Int]($PageNo.Text) + 1);Reparse([Int]($PageNo.Text))})
 $Forward.Parent = $Window
 
 $Countx = 0
@@ -117,8 +94,7 @@ $Script:ButtArr = (1..310 | %{
     }
 
     $Countx++
-    If($Countx % 10 -eq 0)
-    {
+    If($Countx % 10 -eq 0){
         $County++
     }
 })
