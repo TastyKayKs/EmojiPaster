@@ -107,15 +107,9 @@ $Text.Parent = $Window
 $Window.ShowDialog()
 }
 
-If($(Try{[Void][PSObject]::New()}Catch{$True})){
-    $MainBlock = ($MainBlock.toString().Split([System.Environment]::NewLine) | %{
-        $FlipFlop = $True
-    }{
-        If($FlipFLop){$_}
-
-        $FlipFlop = !$FlipFlop
-    } | %{
-        If($_ -match '::New\('){
+If($(Try{[Void][PSObject]::New();$False}Catch{$True})){
+    $MainBlock = ($MainBlock.toString().Split([System.Environment]::NewLine) | ?{$_ -ne ''} | %{
+        If($_ -match ']::New\('){
             (($_.Split('[')[0]+'(New-Object '+$_.Split('[')[-1]+')') -replace ']::New',' -ArgumentList ').Replace(' -ArgumentList ()','')
         }Else{
             $_
